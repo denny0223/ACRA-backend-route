@@ -12,6 +12,10 @@
       'http://your.backend.host2/acra/'
     );
 
+    $handle  = array();
+
+    $mh = curl_multi_init();
+
     foreach($hosts as $host) {
         $ch = curl_init();
 
@@ -23,8 +27,21 @@
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $_POST);
 
-        curl_exec($ch);
+        curl_multi_add_handle($mh, $ch);
+
+        $handle[] = $ch;
     }
+
+    do {
+        curl_multi_exec($mh, $running);
+        curl_multi_select($mh);
+    } while ($running > 0);
+
+    foreach($handle as $ch) {
+        curl_multi_remove_handle($mh, $ch);
+    }
+
+    curl_multi_close($mh);
 
     foreach($_POST as $key => $value) {
         $reportLine = $key." = ".$value."\n";
