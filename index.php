@@ -1,6 +1,6 @@
 <?php
     // Outputs all POST parameters to a text file. The file name is the date_time of the report reception
-    $fileName = date('Y-m-d_H-i-s').'.txt';
+    $fileName = @date('Y-m-d_H-i-s').'.txt';
     $file = fopen($fileName,'w') or die('Could not create report file: ' . $fileName);
 //    $oriPost = 'data.txt';
 //    $postFile = fopen($oriPost,'w') or die('Could not create report file: ' . $oriPost);
