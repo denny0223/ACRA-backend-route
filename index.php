@@ -1,4 +1,9 @@
 <?php
+    if (empty($_POST)) {
+      header("HTTP/1.0 404 Not Found");
+      die();
+    }
+
     // Outputs all POST parameters to a text file. The file name is the date_time of the report reception
     $fileName = @date('Y-m-d_H-i-s').'.txt';
     $file = fopen($fileName,'w') or die('Could not create report file: ' . $fileName);
